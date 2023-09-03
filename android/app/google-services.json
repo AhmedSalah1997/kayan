@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "429834202330",
+    "project_id": "kyan-21a83",
+    "storage_bucket": "kyan-21a83.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:429834202330:android:42e99ecd5e478feb1809e3",
+        "android_client_info": {
+          "package_name": "com.example.kyan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "429834202330-vpi22ejn08jnc3uqko8kuk5r0oq07v44.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlHFaitIWcPZnJyJG2ctC8FhnIuRcx7pE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "429834202330-vpi22ejn08jnc3uqko8kuk5r0oq07v44.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
