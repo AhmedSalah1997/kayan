@@ -1,7 +1,3 @@
-
-// ignore_for_file: avoid_print
-
-import 'package:badges/badges.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -23,7 +19,7 @@ class SublayerHomeScreen extends StatefulWidget {
 
 class _SublayerHomeScreenState extends State<SublayerHomeScreen> {
   int _selcetindex = 0;
-  final List<Widget> _tabs =  [
+  final List<Widget> _tabs = [
     const HomeScreen(),
     const Delevrey(),
     const StoresScreen(),
@@ -43,34 +39,26 @@ class _SublayerHomeScreenState extends State<SublayerHomeScreen> {
         NotificationServices.displayNotification(message);
       }
     });
-
   }
-
-
 
   @override
   Widget build(BuildContext context) {
-
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection('orders')
           .where('sid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-          .where('deliverystatus',isEqualTo: 'preparing')
+          .where('deliverystatus', isEqualTo: 'preparing')
           .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        
-
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Material(
-            child:  Center(
+            child: Center(
               child: CircularProgressIndicator(
                 color: Colors.purple,
               ),
             ),
           );
         }
-
-
 
         return Scaffold(
           body: _tabs[_selcetindex],
@@ -81,7 +69,7 @@ class _SublayerHomeScreenState extends State<SublayerHomeScreen> {
             selectedItemColor: Colors.black,
             unselectedItemColor: Colors.blueAccent,
             currentIndex: _selcetindex,
-            items:  [
+            items: [
               const BottomNavigationBarItem(
                 icon: Icon(Icons.home),
                 label: 'Home',
@@ -90,19 +78,20 @@ class _SublayerHomeScreenState extends State<SublayerHomeScreen> {
                 icon: Icon(Icons.search),
                 label: 'Category',
               ),
-              const  BottomNavigationBarItem(
+              const BottomNavigationBarItem(
                 icon: Icon(Icons.shop),
                 label: 'Stores',
               ),
               BottomNavigationBarItem(
-                icon: Badge (
-                    showBadge: snapshot.data!.docs.isEmpty? false:true,
-                    padding:const EdgeInsets.all(2),
-                    badgeColor: Colors.yellow,
-                    badgeContent: Text(
-                      snapshot.data!.docs.length.toString()
-                      , style:const  TextStyle(fontSize: 16 , fontWeight:FontWeight.w600 ),),
-                    child:const Icon(Icons.dashboard)),
+                icon: const SizedBox(),
+                //  Badge (
+                //     showBadge: snapshot.data!.docs.isEmpty? false:true,
+                //     padding:const EdgeInsets.all(2),
+                //     badgeColor: Colors.yellow,
+                //     badgeContent: Text(
+                //       snapshot.data!.docs.length.toString()
+                //       , style:const  TextStyle(fontSize: 16 , fontWeight:FontWeight.w600 ),),
+                //     child:const Icon(Icons.dashboard)),
                 label: 'Dashboard',
               ),
               const BottomNavigationBarItem(
@@ -118,6 +107,6 @@ class _SublayerHomeScreenState extends State<SublayerHomeScreen> {
           ),
         );
       },
-  );}}
-
-
+    );
+  }
+}
