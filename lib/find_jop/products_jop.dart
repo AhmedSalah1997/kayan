@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
@@ -9,36 +8,33 @@ import 'package:expandable/expandable.dart';
 
 import '../minor/appbarwidget.dart';
 
-
 class ProductJopSecreen extends StatefulWidget {
   final dynamic jop;
 
-  const ProductJopSecreen({Key? key, required this.jop})
-      : super(key: key);
+  const ProductJopSecreen({Key? key, required this.jop}) : super(key: key);
 
   @override
   State<ProductJopSecreen> createState() => _ProductJopSecreenState();
 }
 
 class _ProductJopSecreenState extends State<ProductJopSecreen> {
-
   final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
-  GlobalKey<ScaffoldMessengerState>();
+      GlobalKey<ScaffoldMessengerState>();
 
   late List<dynamic> imagesList = widget.jop['proimage'];
 
-  void _opewhatsApp()async{
-    String phoneNumber = '20${widget.jop['whats'].toString()}' ;
+  void _opewhatsApp() async {
+    String phoneNumber = '20${widget.jop['whats'].toString()}';
     var url = 'http://wa.me/$phoneNumber?text=HelloWorld';
     await launch(url);
   }
 
   @override
   Widget build(BuildContext context) {
-    final Uri url2 = Uri.parse(widget.jop['facebook']);
-    final Uri url3 = Uri.parse(widget.jop['youtube']);
-    final Uri url = Uri(scheme: 'tel', path: '0${widget.jop['number'].toString()}');
-
+    // final Uri url2 = Uri.parse(widget.jop['facebook']);
+    // final Uri url3 = Uri.parse(widget.jop['youtube']);
+    final Uri url =
+        Uri(scheme: 'tel', path: '0${widget.jop['number'].toString()}');
 
     return Material(
       child: SafeArea(
@@ -49,8 +45,11 @@ class _ProductJopSecreenState extends State<ProductJopSecreen> {
             appBar: AppBar(
               elevation: 0,
               backgroundColor: Colors.white,
-              centerTitle: true ,
-              title: Text(widget.jop['text'], style: TextStyle(color: Colors.black),),
+              centerTitle: true,
+              title: Text(
+                widget.jop['text'],
+                style: TextStyle(color: Colors.black),
+              ),
               leading: AppBarBackButton(),
             ),
             body: SingleChildScrollView(
@@ -67,8 +66,7 @@ class _ProductJopSecreenState extends State<ProductJopSecreen> {
                         height: MediaQuery.of(context).size.height * .25,
                         child: Swiper(
                           pagination: const SwiperPagination(
-                              builder: SwiperPagination.dots
-                          ),
+                              builder: SwiperPagination.dots),
                           itemBuilder: (context, index) {
                             return Image(
                                 image: NetworkImage(imagesList[index]));
@@ -83,12 +81,13 @@ class _ProductJopSecreenState extends State<ProductJopSecreen> {
                       width: double.infinity,
                       decoration: BoxDecoration(
                           color: Colors.grey[100],
-                          borderRadius: BorderRadius.circular(10)
-                      ),
+                          borderRadius: BorderRadius.circular(10)),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const SizedBox(height: 2,),
+                          const SizedBox(
+                            height: 2,
+                          ),
                           Text(
                             widget.jop['text'],
                             style: const TextStyle(
@@ -96,7 +95,9 @@ class _ProductJopSecreenState extends State<ProductJopSecreen> {
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600),
                           ),
-                          const SizedBox(height: 2,),
+                          const SizedBox(
+                            height: 2,
+                          ),
                           Text(
                             widget.jop['prodec'],
                             style: const TextStyle(
@@ -113,19 +114,25 @@ class _ProductJopSecreenState extends State<ProductJopSecreen> {
                       width: double.infinity,
                       decoration: BoxDecoration(
                           color: Colors.grey[100],
-                          borderRadius: BorderRadius.circular(10)
-                      ),
+                          borderRadius: BorderRadius.circular(10)),
                       child: Column(
                         children: [
-                          const SizedBox(height: 10,),
+                          const SizedBox(
+                            height: 10,
+                          ),
                           // اتصال
-                         Row(
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.call,size: 20,),
-                              const SizedBox(width: 5,),
+                              Icon(
+                                Icons.call,
+                                size: 20,
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
                               Text(
-                                ('   0${widget.jop['number'].toString()}') ,
+                                ('   0${widget.jop['number'].toString()}'),
                                 style: const TextStyle(
                                     color: Colors.indigo,
                                     letterSpacing: 1.5,
@@ -134,7 +141,9 @@ class _ProductJopSecreenState extends State<ProductJopSecreen> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 5,),
+                          const SizedBox(
+                            height: 5,
+                          ),
                         ],
                       ),
                     ),
@@ -145,28 +154,31 @@ class _ProductJopSecreenState extends State<ProductJopSecreen> {
                       width: double.infinity,
                       decoration: BoxDecoration(
                           color: Colors.grey[100],
-                          borderRadius: BorderRadius.circular(10)
-                      ),
+                          borderRadius: BorderRadius.circular(10)),
                       // الايقونات
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           // الواتس اب
-                          IconButton(onPressed: (){
-                            _opewhatsApp();
-                          },
-                              icon: FaIcon(FontAwesomeIcons.whatsapp), color: Colors.green,iconSize: 20),
+                          IconButton(
+                              onPressed: () {
+                                _opewhatsApp();
+                              },
+                              icon: FaIcon(FontAwesomeIcons.whatsapp),
+                              color: Colors.green,
+                              iconSize: 20),
                           // الاتصال
-                          IconButton(onPressed: ()async{
-
-                            if(await canLaunchUrl(url)){
-                              await launchUrl(url);
-                            }else {
-                              print('مفيش رقم');
-                            }
-                            await launchUrl(url);
-                          },
-                              icon: Icon(Icons.call, color: Colors.indigo,size: 20)),
+                          IconButton(
+                              onPressed: () async {
+                                if (await canLaunchUrl(url)) {
+                                  await launchUrl(url);
+                                } else {
+                                  print('مفيش رقم');
+                                }
+                                await launchUrl(url);
+                              },
+                              icon: Icon(Icons.call,
+                                  color: Colors.indigo, size: 20)),
                           // google
                           // widget.jop['facebook']==' '? const SizedBox():
                           // IconButton(onPressed: (){
@@ -184,34 +196,38 @@ class _ProductJopSecreenState extends State<ProductJopSecreen> {
                     ),
                     const SizedBox(height: 10),
                     // مواعيد العمل والراتب
-                    Container(// height: 250,
+                    Container(
+                      // height: 250,
                       width: double.infinity,
                       decoration: BoxDecoration(
                           color: Colors.grey[100],
-                          borderRadius: BorderRadius.circular(10)
-                      ),
+                          borderRadius: BorderRadius.circular(10)),
                       child: Container(
                         width: double.infinity,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            widget.jop['salary']=='' ? const SizedBox():
-                            Text(
-                              ('المبلغ :  ')+('${widget.jop['salary'].toString()}'),
-                              style: TextStyle(
-                                  fontSize: 17,
-                                  color: Colors.indigo
-                              ),),
-                            const SizedBox(height: 5,),
-                            widget.jop['timework']==''? const SizedBox()
-                            :Text(
-                              ('مواعيد العمل ')+('${widget.jop['timework']}'),
-                              style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600),
+                            widget.jop['salary'] == ''
+                                ? const SizedBox()
+                                : Text(
+                                    ('المبلغ :  ') +
+                                        ('${widget.jop['salary'].toString()}'),
+                                    style: TextStyle(
+                                        fontSize: 17, color: Colors.indigo),
+                                  ),
+                            const SizedBox(
+                              height: 5,
                             ),
-
+                            widget.jop['timework'] == ''
+                                ? const SizedBox()
+                                : Text(
+                                    ('مواعيد العمل ') +
+                                        ('${widget.jop['timework']}'),
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600),
+                                  ),
                           ],
                         ),
                       ),
@@ -222,16 +238,18 @@ class _ProductJopSecreenState extends State<ProductJopSecreen> {
                       width: double.infinity,
                       decoration: BoxDecoration(
                           color: Colors.grey.shade100,
-                          borderRadius: BorderRadius.circular(10)
-                      ),
+                          borderRadius: BorderRadius.circular(10)),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const Text(' العنوان ',style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.indigo
-                          ),),
-                          const SizedBox(height: 5,),
+                          const Text(
+                            ' العنوان ',
+                            style:
+                                TextStyle(fontSize: 20, color: Colors.indigo),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
                           Text(
                             widget.jop['address'],
                             style: const TextStyle(
@@ -239,7 +257,6 @@ class _ProductJopSecreenState extends State<ProductJopSecreen> {
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600),
                           ),
-
                         ],
                       ),
                     ),
@@ -294,45 +311,60 @@ class ProDetailsHeader extends StatelessWidget {
       ),
     );
   }
-
 }
 
-Widget reviews(var reviewsStream){
+Widget reviews(var reviewsStream) {
   return ExpandablePanel(
-    header:const Padding(
+    header: const Padding(
       padding: EdgeInsets.all(10),
-      child: Text('Reviews', style: TextStyle(
-          color: Colors.blue,fontSize: 24, fontWeight: FontWeight.bold
-      ),),
+      child: Text(
+        'Reviews',
+        style: TextStyle(
+            color: Colors.blue, fontSize: 24, fontWeight: FontWeight.bold),
+      ),
     ),
-    collapsed: SizedBox(height: 230,child: reviewsAll(reviewsStream),),
+    collapsed: SizedBox(
+      height: 230,
+      child: reviewsAll(reviewsStream),
+    ),
     expanded: reviewsAll(reviewsStream),
   );
 }
 
-Widget reviewsAll(var reviewsStream){
+Widget reviewsAll(var reviewsStream) {
   return StreamBuilder<QuerySnapshot>(
     stream: reviewsStream,
     builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {
-
       if (snapshot2.connectionState == ConnectionState.waiting) {
-        return const Center(child: CircularProgressIndicator(color: Colors.purple,),);
+        return const Center(
+          child: CircularProgressIndicator(
+            color: Colors.purple,
+          ),
+        );
       }
 
-      if(snapshot2.data!.docs.isEmpty){
-        return const Center(child: Text('this Item \n\n has Reviews item yet ' ,
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 26 , color: Colors.blueGrey,fontFamily:'Acme', letterSpacing: 1.5),) ,);
+      if (snapshot2.data!.docs.isEmpty) {
+        return const Center(
+          child: Text(
+            'this Item \n\n has Reviews item yet ',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 26,
+                color: Colors.blueGrey,
+                fontFamily: 'Acme',
+                letterSpacing: 1.5),
+          ),
+        );
       }
       return ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: snapshot2.data!.docs.length,
-
-          itemBuilder: (context, index){
+          itemBuilder: (context, index) {
             return ListTile(
               leading: CircleAvatar(
-                backgroundImage: NetworkImage(snapshot2.data!.docs[index]['profileimage']),
+                backgroundImage:
+                    NetworkImage(snapshot2.data!.docs[index]['profileimage']),
               ),
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -341,16 +373,17 @@ Widget reviewsAll(var reviewsStream){
                   Row(
                     children: [
                       Text(snapshot2.data!.docs[index]['rate'].toString()),
-                      const Icon(Icons.star, color: Colors.amber,)
+                      const Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                      )
                     ],
                   )
                 ],
               ),
-              subtitle: Text(
-                  snapshot2.data!.docs[index]['comment']
-              ),
-            ) ;
-          }) ;
+              subtitle: Text(snapshot2.data!.docs[index]['comment']),
+            );
+          });
     },
   );
 }

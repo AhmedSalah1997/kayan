@@ -1,6 +1,5 @@
 import 'dart:io';
 
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +11,6 @@ import '../ulited/categ_list.dart';
 import '../widgets/button.dart';
 import '../widgets/pick_button.dart';
 import '../widgets/snakebar.dart';
-
 
 class EditProduct extends StatefulWidget {
   final dynamic items;
@@ -27,7 +25,6 @@ final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
     GlobalKey<ScaffoldMessengerState>();
 
 class _EditProductState extends State<EditProduct> {
-
   late int number1;
   late int number2;
   late int number3;
@@ -43,7 +40,6 @@ class _EditProductState extends State<EditProduct> {
   late String youtube;
   late String proId;
 
-
   String mainCategValue = 'select category';
   String subCategValue = 'subcategory';
 
@@ -57,13 +53,11 @@ class _EditProductState extends State<EditProduct> {
   dynamic _pickedImageError;
   bool proeccing = false;
 
-
   void _pickProductImages() async {
     try {
-      final pickeImage = await _picker.pickMultiImage(
-          );
+      final pickeImage = await _picker.pickMultiImage();
       setState(() {
-        imagesFlieList = pickeImage!;
+        imagesFlieList = pickeImage;
       });
     } catch (e) {
       setState(() {
@@ -99,7 +93,6 @@ class _EditProductState extends State<EditProduct> {
   }
 
   Widget previewCurrentImages() {
-
     List<dynamic> itemImages = widget.items['proimage'];
     return ListView.builder(
         itemCount: itemImages.length,
@@ -108,38 +101,28 @@ class _EditProductState extends State<EditProduct> {
         });
   }
 
-
-  void selectedMainCateg (String ? value){
+  void selectedMainCateg(String? value) {
     if (value == 'select category') {
       subCategList = [];
     } else if (value == 'shop') {
       subCategList = shop;
-    }
-    else if (value == 'shop2') {
+    } else if (value == 'shop2') {
       subCategList = shop2;
-    }
-    else if (value == 'furniture') {
+    } else if (value == 'furniture') {
       subCategList = furniture;
-    }
-    else if (value == 'finishingsupplies') {
+    } else if (value == 'finishingsupplies') {
       subCategList = finishingsupplies;
-    }
-    else if (value == 'clothesandshoes') {
+    } else if (value == 'clothesandshoes') {
       subCategList = clothesandshoes;
-    }
-    else if (value == 'service') {
+    } else if (value == 'service') {
       subCategList = service;
-    }
-    else if (value == 'medicalservices') {
+    } else if (value == 'medicalservices') {
       subCategList = medicalservices;
-    }
-    else if (value == 'car') {
+    } else if (value == 'car') {
       subCategList = car;
-    }
-    else if (value == 'education') {
+    } else if (value == 'education') {
       subCategList = education;
-    }
-    else if (value == 'carsservice') {
+    } else if (value == 'carsservice') {
       subCategList = carsservice;
     }
     // else if (value == 'shopsrent') {
@@ -147,17 +130,13 @@ class _EditProductState extends State<EditProduct> {
     // }
     else if (value == 'freeprofessions') {
       subCategList = freeprofessions;
-    }
-    else if (value == 'doctor') {
+    } else if (value == 'doctor') {
       subCategList = doctor;
-    }
-    else if (value == 'primarystage') {
+    } else if (value == 'primarystage') {
       subCategList = primarystage;
-    }
-    else if (value == 'middleschool') {
+    } else if (value == 'middleschool') {
       subCategList = middleschool;
-    }
-    else if (value == 'highschool') {
+    } else if (value == 'highschool') {
       subCategList = highschool;
     }
     print(value);
@@ -167,47 +146,41 @@ class _EditProductState extends State<EditProduct> {
     });
   }
 
-
-
-
-  Future uploadImages()async{
+  Future uploadImages() async {
     if (_formKey.currentState!.validate()) {
-            _formKey.currentState!.save();
-            if(imagesFlieList!.isNotEmpty){
-              if (mainCategValue != 'select category' && subCategValue != 'subcategory') {
-                try  {
-                  for (var image in imagesFlieList!) {
-                    firebase_storage.Reference ref = firebase_storage
-                        .FirebaseStorage.instance
-                        .ref('products/${path.basename(image.path)}');
-                    await ref.putFile(File(image.path)).whenComplete(() async {
-                      await ref.getDownloadURL().then((value) {
-                        imagesUrlList.add(value);
-                      });
-                    });
-                  }
-                } catch (e) {
-                  print(e);
-                }
-              }
-              else{
-                MyMassege.showSnakeBar(_scaffoldKey, 'select categories');
-              }
+      _formKey.currentState!.save();
+      if (imagesFlieList!.isNotEmpty) {
+        if (mainCategValue != 'select category' &&
+            subCategValue != 'subcategory') {
+          try {
+            for (var image in imagesFlieList!) {
+              firebase_storage.Reference ref = firebase_storage
+                  .FirebaseStorage.instance
+                  .ref('products/${path.basename(image.path)}');
+              await ref.putFile(File(image.path)).whenComplete(() async {
+                await ref.getDownloadURL().then((value) {
+                  imagesUrlList.add(value);
+                });
+              });
             }
-            else{
-              imagesUrlList = widget.items['proimage'];
-            }
-    }
-    else {
+          } catch (e) {
+            print(e);
+          }
+        } else {
+          MyMassege.showSnakeBar(_scaffoldKey, 'select categories');
+        }
+      } else {
+        imagesUrlList = widget.items['proimage'];
+      }
+    } else {
       MyMassege.showSnakeBar(_scaffoldKey, 'fill all fields');
     }
-
   }
 
-
-  editProductData()async{
-    await FirebaseFirestore.instance.runTransaction((transaction)async {
-      DocumentReference documentReference = FirebaseFirestore.instance.collection('products')
+  editProductData() async {
+    await FirebaseFirestore.instance.runTransaction((transaction) async {
+      DocumentReference documentReference = FirebaseFirestore.instance
+          .collection('products')
           .doc(widget.items['proid']);
       transaction.update(documentReference, {
         'maincateg': mainCategValue,
@@ -230,12 +203,9 @@ class _EditProductState extends State<EditProduct> {
     }).whenComplete(() => Navigator.pop(context));
   }
 
-  saveChanges()async{
+  saveChanges() async {
     await uploadImages().whenComplete(() => editProductData());
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -282,7 +252,7 @@ class _EditProductState extends State<EditProduct> {
                                     decoration: BoxDecoration(
                                         color: Colors.yellow,
                                         borderRadius:
-                                        BorderRadius.circular(10)),
+                                            BorderRadius.circular(10)),
                                     child: Center(
                                         child: Text(widget.items['maincateg'])),
                                   ),
@@ -290,7 +260,7 @@ class _EditProductState extends State<EditProduct> {
                               ),
                               Column(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   const Text(
@@ -306,7 +276,7 @@ class _EditProductState extends State<EditProduct> {
                                     decoration: BoxDecoration(
                                         color: Colors.yellow,
                                         borderRadius:
-                                        BorderRadius.circular(10)),
+                                            BorderRadius.circular(10)),
                                     child: Center(
                                         child: Text(widget.items['subcateg'])),
                                   ),
@@ -320,18 +290,18 @@ class _EditProductState extends State<EditProduct> {
                   ),
                   ExpandablePanel(
                     theme: const ExpandableThemeData(
-                      hasIcon: false ,
+                      hasIcon: false,
                     ),
-                    header:  Padding(
-                      padding:const EdgeInsets.all(10),
+                    header: Padding(
+                      padding: const EdgeInsets.all(10),
                       child: Container(
                         decoration: BoxDecoration(
-                          color:Colors.yellow.withOpacity(0.5) ,
+                          color: Colors.yellow.withOpacity(0.5),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         padding: const EdgeInsets.all(6),
                         child: const Center(
-                          child:  Text(
+                          child: Text(
                             'Change Images & Categories',
                             style: TextStyle(
                                 color: Colors.black,
@@ -341,8 +311,7 @@ class _EditProductState extends State<EditProduct> {
                         ),
                       ),
                     ),
-                    collapsed: const SizedBox(
-                    ),
+                    collapsed: const SizedBox(),
                     expanded: changeImages(size),
                   ),
                   const SizedBox(
@@ -360,7 +329,7 @@ class _EditProductState extends State<EditProduct> {
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.35,
                           child: TextFormField(
-                            initialValue:widget.items['number1'].toString(),
+                            initialValue: widget.items['number1'].toString(),
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return ' ادخل رقم الهاتف';
@@ -396,7 +365,7 @@ class _EditProductState extends State<EditProduct> {
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.35,
                           child: TextFormField(
-                            initialValue:widget.items['number2'].toString(),
+                            initialValue: widget.items['number2'].toString(),
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return ' ادخل رقم الهاتف';
@@ -432,7 +401,7 @@ class _EditProductState extends State<EditProduct> {
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.35,
                           child: TextFormField(
-                            initialValue:widget.items['number3'].toString(),
+                            initialValue: widget.items['number3'].toString(),
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return ' ادخل رقم الهاتف الثالث';
@@ -468,7 +437,7 @@ class _EditProductState extends State<EditProduct> {
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.35,
                           child: TextFormField(
-                            initialValue:widget.items['whats'].toString(),
+                            initialValue: widget.items['whats'].toString(),
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return ' ادخل رقم الواتس اب';
@@ -504,7 +473,7 @@ class _EditProductState extends State<EditProduct> {
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.35,
                           child: TextFormField(
-                            initialValue:widget.items['delevery'].toString(),
+                            initialValue: widget.items['delevery'].toString(),
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return ' ادخل رقم الدليفري';
@@ -540,7 +509,7 @@ class _EditProductState extends State<EditProduct> {
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.35,
                           child: TextFormField(
-                            initialValue:widget.items['startwork'].toString(),
+                            initialValue: widget.items['startwork'].toString(),
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return ' ادخل وقت بداية العمل ';
@@ -548,7 +517,7 @@ class _EditProductState extends State<EditProduct> {
                               return null;
                             },
                             onSaved: (value) {
-                               startwork= int.parse(value!);
+                              startwork = int.parse(value!);
                             },
                             keyboardType: const TextInputType.numberWithOptions(
                                 decimal: true),
@@ -576,7 +545,7 @@ class _EditProductState extends State<EditProduct> {
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.35,
                           child: TextFormField(
-                            initialValue:widget.items['endwork'].toString(),
+                            initialValue: widget.items['endwork'].toString(),
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return ' ادخل وقت نهاية العمل ';
@@ -589,7 +558,6 @@ class _EditProductState extends State<EditProduct> {
                             keyboardType: const TextInputType.numberWithOptions(
                                 decimal: true),
                             decoration: textFormDecration.copyWith(
-
                               labelText: 'رقم نهاية العمل',
                               hintText: '',
                             ),
@@ -611,9 +579,8 @@ class _EditProductState extends State<EditProduct> {
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width * 0.4,
                       child: TextFormField(
-                        initialValue:widget.items['proname'],
+                        initialValue: widget.items['proname'],
                         validator: (value) {
-
                           if (value!.isEmpty) {
                             return 'الرجاء ادخل اسم النشاط';
                           }
@@ -644,7 +611,7 @@ class _EditProductState extends State<EditProduct> {
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width * 0.9,
                       child: TextFormField(
-                        initialValue:widget.items['prodec'],
+                        initialValue: widget.items['prodec'],
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'ادخل تفاصيل النشاط';
@@ -676,9 +643,8 @@ class _EditProductState extends State<EditProduct> {
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width * 0.4,
                       child: TextFormField(
-                        initialValue:widget.items['address'],
+                        initialValue: widget.items['address'],
                         validator: (value) {
-
                           if (value!.isEmpty) {
                             return 'الرجاء عنوان النشاط';
                           }
@@ -709,9 +675,8 @@ class _EditProductState extends State<EditProduct> {
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width * 0.4,
                       child: TextFormField(
-                        initialValue:widget.items['facebook'],
+                        initialValue: widget.items['facebook'],
                         validator: (value) {
-
                           if (value!.isEmpty) {
                             return 'الرجاء الفيس بوك ';
                           }
@@ -735,9 +700,8 @@ class _EditProductState extends State<EditProduct> {
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width * 0.4,
                       child: TextFormField(
-                        initialValue:widget.items['instgram'],
+                        initialValue: widget.items['instgram'],
                         validator: (value) {
-
                           if (value!.isEmpty) {
                             return 'انستجرام';
                           }
@@ -761,9 +725,8 @@ class _EditProductState extends State<EditProduct> {
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width * 0.4,
                       child: TextFormField(
-                        initialValue:widget.items['youtube'],
+                        initialValue: widget.items['youtube'],
                         validator: (value) {
-
                           if (value!.isEmpty) {
                             return 'يوتيوب ';
                           }
@@ -796,29 +759,29 @@ class _EditProductState extends State<EditProduct> {
                           ),
                           YellowButton(
                             lable: 'Saved Changes',
-                            onPress: ()  {
+                            onPress: () {
                               saveChanges();
                             },
                             width: 0.5,
                           ),
-
                         ],
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: PinkButton(
-                          lable: 'Delete item', width: 0.7,
-                          onPress: ()async {
-                            await FirebaseFirestore.instance.runTransaction((
-                                transaction) async {
-                              DocumentReference documentRefranecr = FirebaseFirestore
-                                  .instance.collection('products')
-                                  .doc(widget.items['proid']);
-                              transaction.delete(documentRefranecr);
-                            },
-                            ).whenComplete(() => Navigator.pop(context));
-                          }
-                        ),
+                            lable: 'Delete item',
+                            width: 0.7,
+                            onPress: () async {
+                              await FirebaseFirestore.instance.runTransaction(
+                                (transaction) async {
+                                  DocumentReference documentRefranecr =
+                                      FirebaseFirestore.instance
+                                          .collection('products')
+                                          .doc(widget.items['proid']);
+                                  transaction.delete(documentRefranecr);
+                                },
+                              ).whenComplete(() => Navigator.pop(context));
+                            }),
                       )
                     ],
                   )
@@ -894,7 +857,8 @@ class _EditProductState extends State<EditProduct> {
                       dropdownColor: Colors.yellow.shade400,
                       disabledHint: const Text('select category'),
                       value: subCategValue,
-                      items: subCategList.map<DropdownMenuItem<String>>((value) {
+                      items:
+                          subCategList.map<DropdownMenuItem<String>>((value) {
                         return DropdownMenuItem(
                           child: Text(value),
                           value: value,
@@ -915,14 +879,21 @@ class _EditProductState extends State<EditProduct> {
         ]),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: imagesFlieList!.isNotEmpty? YellowButton(lable: 'Reset  Images', onPress: (){
-            setState(() {
-              imagesFlieList = [];
-            });
-          }, width: 0.6):
-          YellowButton(lable: ' Change Images', onPress: (){
-            _pickProductImages();
-          }, width: 0.6),
+          child: imagesFlieList!.isNotEmpty
+              ? YellowButton(
+                  lable: 'Reset  Images',
+                  onPress: () {
+                    setState(() {
+                      imagesFlieList = [];
+                    });
+                  },
+                  width: 0.6)
+              : YellowButton(
+                  lable: ' Change Images',
+                  onPress: () {
+                    _pickProductImages();
+                  },
+                  width: 0.6),
         )
       ],
     );
@@ -943,4 +914,3 @@ var textFormDecration = InputDecoration(
     borderRadius: BorderRadius.circular(10),
   ),
 );
-

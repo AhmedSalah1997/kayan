@@ -1,23 +1,20 @@
-import 'package:flutter/material.dart';
-
-
-class SliderModel{
-
+class SliderModel {
   String imageAssetPath;
   String title;
   String subtitle;
   // String desc;
 
-  SliderModel({this.imageAssetPath='',this.title='',this.subtitle=''});
+  SliderModel({this.imageAssetPath = '', this.title = '', this.subtitle = ''});
 
-  void setImageAssetPath(String getImageAssetPath){
+  void setImageAssetPath(String getImageAssetPath) {
     imageAssetPath = getImageAssetPath;
   }
 
-  void setTitle(String getTitle){
+  void setTitle(String getTitle) {
     title = getTitle;
   }
-  void setSubTitle(String getSubTitle){
+
+  void setSubTitle(String getSubTitle) {
     subtitle = getSubTitle;
   }
 
@@ -25,26 +22,24 @@ class SliderModel{
   //   desc = getDesc;
   // }
 
-  String getImageAssetPath(){
+  String getImageAssetPath() {
     return imageAssetPath;
   }
 
-  String getTitle(){
+  String getTitle() {
     return title;
   }
-  String getSubTitle(){
+
+  String getSubTitle() {
     return subtitle;
   }
 
   // String getDesc(){
   //   return desc;
   // }
-
 }
 
-
-List<SliderModel> getSlides(){
-
+List<SliderModel> getSlides() {
   List<SliderModel> slides = <SliderModel>[];
   SliderModel sliderModel = SliderModel();
 
@@ -55,7 +50,7 @@ List<SliderModel> getSlides(){
   sliderModel.setImageAssetPath("images/onborader/illustration3.png");
   slides.add(sliderModel);
 
-  sliderModel =  SliderModel();
+  sliderModel = SliderModel();
 
   //2
   // sliderModel.setDesc("Our veggie plan is filled with delicious seasonal vegetables, whole grains, beautiful cheeses and vegetarian proteins");
@@ -64,7 +59,7 @@ List<SliderModel> getSlides(){
   sliderModel.setImageAssetPath("images/onborader/illustration2.png");
   slides.add(sliderModel);
 
-  sliderModel =  SliderModel();
+  sliderModel = SliderModel();
 
   //3
   // sliderModel.setDesc("Food delivery or pickup from local restaurants, Explore restaurants that deliver near you.");
@@ -73,7 +68,7 @@ List<SliderModel> getSlides(){
   sliderModel.setImageAssetPath("images/onborader/illustration.png");
   slides.add(sliderModel);
 
-  sliderModel =  SliderModel();
+  sliderModel = SliderModel();
 
   return slides;
 }
